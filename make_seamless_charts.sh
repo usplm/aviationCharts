@@ -22,27 +22,27 @@ main() {
     # Update local chart copies from Aeronav website
     ./freshenLocalCharts.sh "$CHARTS_BASE_DIRECTORY"
 
-    # Unzip all .tifs to one directory and normalize names 
-    # This handles charts that have revision numbers in the filename 
+    # Unzip all .tifs to one directory and normalize names
+    # This handles charts that have revision numbers in the filename
     # (sectional, tac etc)
     ./unzip_and_normalize.sh "$CHARTS_BASE_DIRECTORY"
- 
+
     # The process_charts function does the following for a given chart type:
     # 	Expand charts to RGBA band as necessary using a .vrt file
     # 	Clip each chart to its associated polygon
     #	Reproject to EPSG:3857
-    
+
     # The tile_charts.sh script does these functions for a given chart type:
     # 	create TMS tile tree from the reprojected raster
     #       optionally (with -o) use pngquant to optimize each individual tile
     #       optionally (with -m) create an mbtile for each individual chart
     #
-    
+
     if [ -n "$should_process_caribbean" ]; then
         local -r originalEnrouteDirectory="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/enroute/$ENROUTE_CYCLE"
-        
+
         INPUT_CHART_TYPE="caribbean"
-        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/content/aeronav/Caribbean/"
+        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/visual/${ENROUTE_CYCLE}/Caribbean/"
 
         # Extract Caribbean PDFs and convert to TIFF, placing output in "2_normalized"
         # directory
@@ -58,7 +58,7 @@ main() {
         ./cut_and_georeference_Caribbean_insets.pl \
             "$CHARTS_BASE_DIRECTORY"    \
             "${CHARTS_BASE_DIRECTORY}/2_normalized/"
-        
+
         if [ -n "$should_create_mbtiles" ]; then
 #              ./tileCaribbean.sh      -m -o "$CHARTS_BASE_DIRECTORY"
              ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" caribbean
@@ -66,13 +66,13 @@ main() {
     fi
 
     if [ -n "$should_process_enroute" ]; then
-        
+
         INPUT_CHART_TYPE="enroute"
         INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/enroute/${ENROUTE_CYCLE}/"
 
         # Do all processing on this type of chart
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
-        
+
         if [ -n "$should_create_mbtiles" ]; then
 #             ./tileEnrouteHigh.sh    -m -o "$CHARTS_BASE_DIRECTORY"
 #             ./tileEnrouteLow.sh     -m -o "$CHARTS_BASE_DIRECTORY"
@@ -80,14 +80,14 @@ main() {
         fi
 
     fi
-    
+
     if [ -n "$should_process_grand_canyon" ];then
         INPUT_CHART_TYPE="grand_canyon"
-        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/content/aeronav/Grand_Canyon_files/"
+        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/visual/${ENROUTE_CYCLE}/grand_canyon_files/"
 
         # Do all processing on this type of chart
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
-        
+
         if [ -n "$should_create_mbtiles" ]; then
 #             ./tileGrandCanyon.sh    -m -o "$CHARTS_BASE_DIRECTORY"
             ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" grand_canyon
@@ -97,47 +97,47 @@ main() {
 
     if [ -n "$should_process_helicopter" ]; then
         INPUT_CHART_TYPE="heli"
-        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/content/aeronav/heli_files/"
+        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/visual/${ENROUTE_CYCLE}/heli_files/"
 
         # Do all processing on this type of chart
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
-        
+
         if [ -n "$should_create_mbtiles" ]; then
 #             ./tileHeli.sh           -m -o "$CHARTS_BASE_DIRECTORY"
             ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" heli
         fi
 
     fi
-        
+
     if [ -n "$should_process_planning" ]; then
 
         INPUT_CHART_TYPE="planning"
-        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/content/aeronav/Planning/"
+        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/visual/${ENROUTE_CYCLE}/Planning/"
 
         # Do all processing on this type of chart
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
-        
+
         if [ -n "$should_create_mbtiles" ]; then
             ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" planning
         fi
 
-    
+
     fi
-    
+
     if [ -n "$should_process_sectional" ]; then
-    
+
         INPUT_CHART_TYPE="sectional"
-        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/content/aeronav/sectional_files/"
+        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/visual/${ENROUTE_CYCLE}/sectional-files/"
 
         # Do all processing on this type of chart
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
-        
-        
+
+
         # Clip and georeference insets
         ./cut_and_georeference_Sectional_insets.pl \
             "$CHARTS_BASE_DIRECTORY"    \
-        
-        
+
+
         if [ -n "$should_create_mbtiles" ]; then
 #             ./tileSectional.sh   -m -o "$CHARTS_BASE_DIRECTORY"
 #             ./tileInsets.sh      -m -o "$CHARTS_BASE_DIRECTORY"
@@ -147,10 +147,10 @@ main() {
         fi
 
     fi
-    
+
     if [ -n "$should_process_tac" ]; then
         INPUT_CHART_TYPE="tac"
-        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/content/aeronav/tac_files/"
+        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/aeronav.faa.gov/visual/${ENROUTE_CYCLE}/tac-files/"
 
         # Do all processing on this type of chart
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
@@ -162,13 +162,13 @@ main() {
         fi
 
     fi
-    
 
 
-    # Stack the various resolutions and types of charts into combined tilesets 
+
+    # Stack the various resolutions and types of charts into combined tilesets
     # and mbtiles
-    # Use these command line options to do/not do specific types of charts 
-    # and/or create mbtiles 
+    # Use these command line options to do/not do specific types of charts
+    # and/or create mbtiles
     #  -v  Create merged VFR
     #  -h  Create merged IFR-HIGH
     #  -l  Create merged IFR-LOW
@@ -199,12 +199,12 @@ USAGE() {
 create_directories() {
     # Create all the directories we need
     local -r BASE_DIRECTORY="$1"
-    
+
     local -r baseDirs=(3_expandedRasters 4_clippedRasters 5_warpedRasters 6_tiles 7_mbtiles)
-    
+
     local -r chartTypes=(caribbean enroute gom grand_canyon heli planning sectional tac insets )
 
-    # Create the tree of output directories  
+    # Create the tree of output directories
     for DIR in "${baseDirs[@]}";  do
         for CHART_TYPE in "${chartTypes[@]}"; do
             # echo "${BASE_DIRECTORY}/${DIR}/${CHART_TYPE}"
@@ -213,13 +213,13 @@ create_directories() {
                 "${BASE_DIRECTORY}/${DIR}/${CHART_TYPE}"
         done
     done
-    
+
     # Other directories
     mkdir \
         --parents \
         "${BASE_DIRECTORY}/merged_tiled_charts"
     }
-    
+
 expand_to_rgb(){
     # Get the number of function parameters
     local -r NUMARGS=$#
@@ -228,7 +228,7 @@ expand_to_rgb(){
     if [ "$NUMARGS" -ne 3 ] ; then
         echo "Bad expand_to_rgb parameters"
     fi
-    
+
     local -r NORMALIZED_FILE_DIRECTORY="$1"
     local -r EXPANDED_FILE_DESTINATION="$2"
     local -r INPUT_CHART_TYPE="$3"
@@ -237,7 +237,7 @@ expand_to_rgb(){
     # These are arrays with all of the files of the various types listed in
     # them
     caribbean_files=("${NORMALIZED_FILE_DIRECTORY}/Caribbean*.tif")
-    
+
     enroute_files=( "${NORMALIZED_FILE_DIRECTORY}/ENR_L*.tif"   \
                     "${NORMALIZED_FILE_DIRECTORY}/ENR_H*.tif"   \
                     "${NORMALIZED_FILE_DIRECTORY}/ENR_AKL*.tif" \
@@ -248,47 +248,47 @@ expand_to_rgb(){
                     "${NORMALIZED_FILE_DIRECTORY}/porc.tif"     \
                     "${NORMALIZED_FILE_DIRECTORY}/watrs.tif"    \
                     )
-    
+
     gom_files=("${NORMALIZED_FILE_DIRECTORY}/GOM_*.tif")
-    
+
     grand_canyon_files=("${NORMALIZED_FILE_DIRECTORY}/Grand_Canyon*.tif")
-    
+
     heli_files=("${NORMALIZED_FILE_DIRECTORY}/*_HEL.tif")
 
     planning_files=("${NORMALIZED_FILE_DIRECTORY}/*_Planning*.tif"  \
                     "${NORMALIZED_FILE_DIRECTORY}/*_PLAN_*.tif"     \
                     )
-    
+
     sectional_files=("${NORMALIZED_FILE_DIRECTORY}/*_SEC.tif")
-    
+
     tac_files=("${NORMALIZED_FILE_DIRECTORY}/*_TAC.tif")
 #     insets_files=("${NORMALIZED_FILE_DIRECTORY}/*.tif")
 
-    
+
     # Which list of files to use
     chart_array_name="${INPUT_CHART_TYPE}_files"
-    
+
     # Using bash indirect array reference, get the array of files
     array_of_charts="${chart_array_name}[*]"
-    
-            
+
+
 #     echo $array_of_charts
-    
+
     # Loop through each file for this particular array of charts
     for sourceChartName in ${!array_of_charts}; do
         echo "*** Expand --- gdal_translate $sourceChartName"
 
         local fbname=$(basename "$sourceChartName" | cut -d. -f1)
-        
+
         local vrt_name="${EXPANDED_FILE_DESTINATION}/${fbname}.vrt"
-        
+
         echo "Expanding to ${vrt_name}"
-        
+
         # Expand this file to RGBA if it has a color table
         if gdalinfo "${sourceChartName}" -noct | grep -q 'Color Table'
         then
             echo "***  ${sourceChartName} has color table, need to expand to RGB: "
-            
+
             "${PROGDIR}/memoize.py" -t  \
                 -d "$CHARTS_BASE_DIRECTORY"     \
                 gdal_translate          \
@@ -301,7 +301,7 @@ expand_to_rgb(){
                     "${vrt_name}"
         else
             echo "***  ${sourceChartName} does not have color table, do not need to expand to RGB"
-            
+
             "${PROGDIR}/memoize.py" -t  \
                 -d "$CHARTS_BASE_DIRECTORY"     \
                 gdal_translate          \
@@ -315,7 +315,7 @@ expand_to_rgb(){
 
         # #Create external overviews to make display faster in QGIS
         # echo "***  Overviews for Expanded File --- gdaladdo $sourceChartName"
-        # 
+        #
         # ./memoize.py -t \
         #     gdaladdo        \
         #         -ro         \
@@ -338,7 +338,7 @@ test_directories(){
         fi
     done
     }
-    
+
 warp_and_clip(){
     # Get the number of function parameters
     local -r NUMARGS=$#
@@ -347,37 +347,37 @@ warp_and_clip(){
     if [ "$NUMARGS" -ne 4 ] ; then
         echo "bad warp_and_clip parameters"
     fi
-    
-    
+
+
     local -r EXPANDED_FILE_DIRECTORY="$1"
     local -r CLIPPED_FILE_DIRECTORY="$2"
     local -r WARPED_RASTERS_DIRECTORY="$3"
     local -r CLIPPING_SHAPES_DIRECTORY="$4"
-    
+
     # All of the .vrt files in the source directory
 #     local -r EXPANDED_CHART_ARRAY=$(ls -1 "${EXPANDED_FILE_DIRECTORY}"/*.vrt)
     local -r EXPANDED_CHART_ARRAY=("${EXPANDED_FILE_DIRECTORY}/*.vrt")
-    
-    #1) Clip the source file first then 
+
+    #1) Clip the source file first then
     #2) warp to EPSG:3857 so that final output pixels are square
     #----------------------------------------------
 
-    for sourceChartName in ${EXPANDED_CHART_ARRAY[@]}; do        
+    for sourceChartName in ${EXPANDED_CHART_ARRAY[@]}; do
         # Get the file name without extension
         local fbname=$(basename "$sourceChartName" | cut -d. -f1)
-            
+
         # Clip the file it to its clipping shape
         echo "*** Clip to vrt --- gdalwarp $sourceChartName"
-        
+
         # Make sure we have a clipping shape for this file
         if [ ! -f "$CLIPPING_SHAPES_DIRECTORY/${fbname}.shp" ]; then
             echo "No clipping shape for ${fbname}.shp"
             exit 1
         fi
-        
+
         echo "expanded source: $EXPANDED_FILE_DIRECTORY/${fbname}.vrt"
         echo "clipped destination: $CLIPPED_FILE_DIRECTORY/${fbname}.vrt"
-        # BUG TODO crop_to_cutline results in a resampled image with non-square 
+        # BUG TODO crop_to_cutline results in a resampled image with non-square
         # pixels
         # How to best handle this?  One fix is an additional warp to EPSG:3857
         # Do I need -dstalpha here?  That adds a band, I just want to re-use the
@@ -407,7 +407,7 @@ warp_and_clip(){
         echo "*** Warp to vrt --- gdalwarp $sourceChartName"
         echo "clipped source: ${CLIPPED_FILE_DIRECTORY}/${fbname}.vrt"
         echo "warped destination: ${WARPED_RASTERS_DIRECTORY}/${fbname}.vrt"
-        
+
         time \
             nice -10 \
                 "${PROGDIR}/memoize.py" -t          \
@@ -468,27 +468,27 @@ process_charts(){
     # Get the number of function parameters
     local -r NUMARGS=$#
     echo "Process Charts"
-    
+
     # Validate number of function parameters
     if [ "$NUMARGS" -ne 2 ] ; then
         echo "Bad process_charts parameters"
     fi
-    
+
     # What type of chart we're processing
     local -r INPUT_CHART_TYPE="$1"
-    
+
     # Where those charts are
     local -r ORIGINAL_DIRECTORY="$2"
-    
+
     echo "process_charts: $INPUT_CHART_TYPE : $ORIGINAL_DIRECTORY"
-    
+
     local -r NORMALIZED_RASTERS_DIRECTORY="$CHARTS_BASE_DIRECTORY/2_normalized/"
     local -r   EXPANDED_RASTERS_DIRECTORY="$CHARTS_BASE_DIRECTORY/3_expandedRasters/$INPUT_CHART_TYPE/"
     local -r    CLIPPED_RASTERS_DIRECTORY="$CHARTS_BASE_DIRECTORY/4_clippedRasters/$INPUT_CHART_TYPE/"
     local -r     WARPED_RASTERS_DIRECTORY="$CHARTS_BASE_DIRECTORY/5_warpedRasters/$INPUT_CHART_TYPE/"
-    
+
     local -r CLIPPING_SHAPES_DIRECTORY="${PROGDIR}/clippingShapes/$INPUT_CHART_TYPE/"
-        
+
     # Make sure all of our directories exist
     test_directories \
         "${ORIGINAL_DIRECTORY}"             \
@@ -496,14 +496,14 @@ process_charts(){
         "${EXPANDED_RASTERS_DIRECTORY}"     \
         "${CLIPPED_RASTERS_DIRECTORY}"      \
         "${WARPED_RASTERS_DIRECTORY}"       \
-        "${CLIPPING_SHAPES_DIRECTORY}"      
+        "${CLIPPING_SHAPES_DIRECTORY}"
 
     # Expand input file to RGB if needed
     expand_to_rgb   \
         "${NORMALIZED_RASTERS_DIRECTORY}"   \
         "${EXPANDED_RASTERS_DIRECTORY}"     \
         "$INPUT_CHART_TYPE"
-    
+
     # Warp the file to 3875 SRS and clip it
     warp_and_clip   \
         "${EXPANDED_RASTERS_DIRECTORY}" \
