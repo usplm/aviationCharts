@@ -16,12 +16,12 @@ sudo \
         carton          \
         gdal-bin
 
-carton install
+sudo carton install
 
 # Get some utilities
-git clone https://github.com/jlmcgraw/parallelGdal2tiles.git
-git clone https://github.com/mapbox/mbutil.git
-git clone https://github.com/jlmcgraw/tilers_tools.git
+# git clone https://github.com/jlmcgraw/parallelGdal2tiles.git
+sudo git clone https://github.com/mapbox/mbutil.git
+# git clone https://github.com/jlmcgraw/tilers_tools.git
 # git clone https://github.com/vss-devel/tilers-tools.git
 
 
