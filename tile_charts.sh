@@ -9,12 +9,12 @@ IFS=$(printf '\n\t')   # IFS is newline or tab
 main() {
     # Types of charts
     local -r chart_types_array=( caribbean enroute gom grand_canyon heli insets planning sectional tac )
-        
-    # An associative array of the individual chart arrays for different scales and 
+
+    # An associative array of the individual chart arrays for different scales and
     # each one's associated zoom levels
-    declare -A chart_zoom_levels_array=( 
+    declare -A chart_zoom_levels_array=(
         [sectional_chart_array_500000]="0,1,2,3,4,5,6,7,8,9,10,11"
-        [sectional_chart_array_250000]="0,1,2,3,4,5,6,7,8,9,10,11,12" 
+        [sectional_chart_array_250000]="0,1,2,3,4,5,6,7,8,9,10,11,12"
         [tac_chart_array]="7,8,9,10,11,12"
         [insets_chart_array]="8,9,10,11,12"
         [heli_chart_array_1000000]="0,1,2,3,4,5,6,7,8,9,10"
@@ -31,7 +31,7 @@ main() {
         [caribbean_chart_array]="0,1,2,3,4,5,6,7,8,9,10"
         [planning_chart_array]="0,1,2,3,4,5,6,7"
         )
-        
+
     # Charts that are at 1:500,000 scale
     local -r sectional_chart_array_500000=(
         Albuquerque_SEC Anchorage_SEC Atlanta_SEC Bethel_SEC Billings_SEC
@@ -40,13 +40,13 @@ main() {
         Detroit_SEC Dutch_Harbor_SEC El_Paso_SEC Fairbanks_SEC Great_Falls_SEC
         Green_Bay_SEC Halifax_SEC Hawaiian_Islands_SEC Houston_SEC
         Jacksonville_SEC Juneau_SEC Kansas_City_SEC Ketchikan_SEC Klamath_Falls_SEC
-        Kodiak_SEC Lake_Huron_SEC Las_Vegas_SEC Los_Angeles_SEC 
+        Kodiak_SEC Lake_Huron_SEC Las_Vegas_SEC Los_Angeles_SEC
         McGrath_SEC Memphis_SEC Miami_SEC Montreal_SEC New_Orleans_SEC New_York_SEC
         Nome_SEC Omaha_SEC Phoenix_SEC Point_Barrow_SEC Salt_Lake_City_SEC
         San_Antonio_SEC San_Francisco_SEC Seattle_SEC
         Seward_SEC St_Louis_SEC Twin_Cities_SEC Washington_SEC
         Western_Aleutian_Islands_East_SEC Western_Aleutian_Islands_West_SEC
-        Whitehorse_SEC Wichita_SEC
+        Wichita_SEC
         )
 
     # Charts that are at 1:250,000 scale
@@ -75,7 +75,7 @@ main() {
         Norfolk_Inset
         Pribilof_Islands_Inset
         )
-        
+
     local -r heli_chart_array_1000000=(
         U_S_Gulf_Coast_HEL
         )
@@ -83,7 +83,7 @@ main() {
     local -r heli_chart_array_250000=(
         Eastern_Long_Island_HEL
         )
-            
+
     local -r heli_chart_array_125000=(
         Baltimore_HEL
         Boston_HEL
@@ -111,16 +111,16 @@ main() {
         Boston_Downtown_HEL
         Downtown_Manhattan_HEL
         )
-        
+
     local -r grand_canyon_chart_array=(
         Grand_Canyon_General_Aviation
         Grand_Canyon_Air_Tour_Operators
         )
-        
+
     local -r enroute_chart_array_2000000=(
         ENR_CL01
         ENR_CL02
-        ENR_CL03    
+        ENR_CL03
         ENR_CL05
         ENR_AKH01 ENR_AKH02
         )
@@ -148,10 +148,10 @@ main() {
         Dominican_Republic_Puerto_Rico_Area
         Bogota_area
         ENR_P02
-        ENR_AKH01_SEA ENR_H01 ENR_H02 ENR_H03 ENR_H04 ENR_H05 
-        ENR_H06 ENR_H07 ENR_H08 ENR_H09 ENR_H10 ENR_H11 ENR_H12 
+        ENR_AKH01_SEA ENR_H01 ENR_H02 ENR_H03 ENR_H04 ENR_H05
+        ENR_H06 ENR_H07 ENR_H08 ENR_H09 ENR_H10 ENR_H11 ENR_H12
         )
-        
+
     local -r enroute_chart_array_500000=(
         Buenos_Aires_Area
         Santiago_Area
@@ -209,12 +209,12 @@ main() {
         ENR_A02_LAX
         ENR_A02_MKC
         )
-        
+
     local -r caribbean_chart_array=(
         Caribbean_1_VFR_Chart
         Caribbean_2_VFR_Chart
         )
-    
+
     local -r planning_chart_array=(
         Alaska_Wall_Planning_Chart
         US_IFR_PLAN_EAST
@@ -231,25 +231,25 @@ main() {
         echo "Destination directory $destinationRoot doesn't exist"
         exit 1
     fi
-    
+
     # For all the keys in the chart_zoom_levels_array
     for chart_array in "${!chart_zoom_levels_array[@]}"; do
-        
+
         # Get the zoom levels for this array of charts
         zoom_levels="${chart_zoom_levels_array[$chart_array]}"
-        
+
 
         # Compare the name of requested chart type to array name
         if [[ "$chart_array" == "$chart_type"*  ]]; then
-            
+
 #             echo "------------------"
 #             echo "Chart array: $chart_array"
 #             echo "Zoom levels: $zoom_levels"
-            
+
             # List of all elements
             charts="${chart_array}[@]"
 
-            # For all of the charts in the array 
+            # For all of the charts in the array
             for chart in "${!charts}"; do
 #                 echo "chart: $chart"
                 tile_chart "$chart" "$chart_type" "$destinationRoot" "$zoom_levels"
@@ -261,7 +261,7 @@ main() {
 tile_chart() {
 
     echo "--------Tiling ${chart}------------"
-    
+
     # Validate number of parameters
     if [ "$#" -ne 4 ] ; then
         echo "Usage: tile_chart <chart> <chart_type> <destination_root> <zoom_levels>" >&2
@@ -272,19 +272,19 @@ tile_chart() {
     local -r chartType="$2"
     local -r destinationRoot="$3"
     local -r zoom_levels="$4"
- 
+
     # Where to put tiled charts (each in its own directory)
     local -r tiled_charts_directory="$destinationRoot/6_tiles"
-    
+
     # Where to put tiles we create
     local -r output_tiles_directory="$tiled_charts_directory/${chart}.tms"
-    
+
     # The mbtiles file for this chart
     local -r mbtiles_file="$destinationRoot/7_mbtiles/${chart}.mbtiles"
-    
+
     # The warped version of this chart
     local -r warped_chart="$destinationRoot/5_warpedRasters/$chartType/$chart.tif"
-    
+
     echo "Zoom levels are ${zoom_levels}"
 
     # Check that the destination directory exists
@@ -292,13 +292,13 @@ tile_chart() {
         echo "Tiled charts directory $tiled_charts_directory doesn't exist"
         exit 1
     fi
-    
+
     # Check that the source raster exists
     if [ ! -f "$warped_chart" ]; then
         echo "Warped chart $warped_chart doesn't exist" >&2
         exit 1
     fi
-    
+
     # Create tiles from the source raster
     ./memoize.py -i "$tiled_charts_directory"  -d "$destinationRoot" \
         ./tilers_tools/gdal_tiler.py            \
@@ -308,7 +308,7 @@ tile_chart() {
             --zoom="${zoom_levels}"             \
             --dest-dir="$tiled_charts_directory"               \
             "$warped_chart"
-        
+
     # Did the user want to optimize the individual tiles?
     if [ -n "$optimize_tiles_flag" ]
         then
@@ -321,10 +321,10 @@ tile_chart() {
     if [ -n "$create_mbtiles_flag" ]
         then
             echo "Creating mbtiles for $chart"
-            
+
             # Delete any existing mbtiles file
             rm -f "$mbtiles_file"
-            
+
             # Package tiles into an .mbtiles file
             ./memoize.py -i "$tiled_charts_directory"  -d "$destinationRoot"    \
                 python ./mbutil/mb-util \
@@ -332,14 +332,14 @@ tile_chart() {
                     "$output_tiles_directory"   \
                     "$mbtiles_file"
             printf "\n"
-            
+
         fi
-        
+
     # Copy leaflet and the simple viewer to our tiled directory
     cp -r ./leaflet/* "$output_tiles_directory"
     }
-    
-    
+
+
 # The script starts here
 verbose='false'
 optimize_tiles_flag=''
@@ -385,14 +385,3 @@ fi
 # Call the main routine
 main "$@"
 exit 0
-
-
-
-
-
-
-
-
-
-
-
