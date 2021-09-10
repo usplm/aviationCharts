@@ -290,13 +290,13 @@ tile_chart() {
     # Check that the destination directory exists
     if [ ! -d "$tiled_charts_directory" ]; then
         echo "Tiled charts directory $tiled_charts_directory doesn't exist"
-        exit 0
+        return 0
     fi
 
     # Check that the source raster exists
     if [ ! -f "$warped_chart" ]; then
         echo "Warped chart $warped_chart doesn't exist" >&2
-        exit 0
+        return 0
     fi
 
     # Create tiles from the source raster
