@@ -91,7 +91,6 @@ vfr_chart_list=(
     Washington_SEC
     Western_Aleutian_Islands_East_SEC
     Western_Aleutian_Islands_West_SEC
-    Whitehorse_SEC
     Wichita_SEC
     Anchorage_TAC
     Atlanta_TAC
@@ -269,16 +268,16 @@ if [ -n "$should_create_vfr" ]
     then
         # What type of merged chart are we making
         chart_type="VFR"
-        
+
         # Where will the merged tiles be stored
         merged_tiles_directory="${destDir}/${chart_type}"
-        
+
         # The name of the mbtiles file to create from the merged tiles
         mbtiles_file_name="${merged_tiles_directory}.mbtiles"
-        
+
         echo "Cleaning $merged_tiles_directory"
         rm --force --recursive --dir "$merged_tiles_directory"
-        
+
         for chart in "${vfr_chart_list[@]}"
             do
             echo "${chart_type}: $chart"
@@ -292,13 +291,13 @@ if [ -n "$should_create_vfr" ]
 
         # Optimize the tiled png files
         ./pngquant_all_files_in_directory.sh "$merged_tiles_directory"
-        
+
         if [ -n "$should_create_mbtiles" ]
             then
-            
+
             # Remove the existing mbtiles
             rm --force "$mbtiles_file_name"
-            
+
             # Package tiles into an .mbtiles file
             ./memoize.py    \
                 -i "$merged_tiles_directory"        \
@@ -308,7 +307,7 @@ if [ -n "$should_create_vfr" ]
                         "$merged_tiles_directory"   \
                         "$mbtiles_file_name"
             fi
-        
+
         # Copy leaflet and the simple viewer to our tiled directory
         cp -r ./leaflet/* "$merged_tiles_directory"
     fi
@@ -319,7 +318,7 @@ if [ -n "$should_create_ifr_low" ]
     then
         echo "Cleaning $destDir/IFR-LOW"
         rm --force --recursive --dir "$destDir/IFR-LOW"
-        
+
         for chart in "${ifr_low_chart_list[@]}"
             do
             echo "IFR LOW: $chart                                              "
@@ -332,13 +331,13 @@ if [ -n "$should_create_ifr_low" ]
 
         # Optimize the tiled png files
         ./pngquant_all_files_in_directory.sh "${destDir}/IFR-LOW"
-        
+
         if [ -n "$should_create_mbtiles" ]
             then
-            
+
             # Remove the existing mbtiles
             rm --force "${destDir}/IFR-LOW.mbtiles"
-            
+
             # Package tiles into an .mbtiles file
             ./memoize.py -i "$destDir" -d "$destDir" \
                 python ./mbutil/mb-util \
@@ -346,7 +345,7 @@ if [ -n "$should_create_ifr_low" ]
                     "${destDir}/IFR-LOW" \
                     "${destDir}/IFR-LOW.mbtiles"
             fi
-            
+
         # Copy leaflet and the simple viewer to our tiled directory
         cp -r ./leaflet/* "$destDir/IFR-LOW"
     fi
@@ -357,7 +356,7 @@ if [ -n "$should_create_ifr_high" ]
     then
         echo "Cleaning $destDir/IFR-HIGH"
         rm --force --recursive --dir "$destDir/IFR-HIGH"
-        
+
         for chart in "${ifr_high_chart_list[@]}"
             do
             echo "IFR HIGH: $chart                                             "
@@ -373,10 +372,10 @@ if [ -n "$should_create_ifr_high" ]
 
         if [ -n "$should_create_mbtiles" ]
             then
-            
+
             # Remove the existing mbtiles
             rm --force "${destDir}/IFR-HIGH.mbtiles"
-            
+
             # Package tiles into an .mbtiles file
             ./memoize.py -i "$destDir" -d "$destDir" \
                 python ./mbutil/mb-util \
@@ -384,7 +383,7 @@ if [ -n "$should_create_ifr_high" ]
                     "${destDir}/IFR-HIGH" \
                     "${destDir}/IFR-HIGH.mbtiles"
             fi
-            
+
         # Copy leaflet and the simple viewer to our tiled directory
         cp -r ./leaflet/* "$destDir/IFR-HIGH"
     fi
@@ -395,7 +394,7 @@ if [ -n "$should_create_heli" ]
     then
         echo "Cleaning $destDir/IFR-HELI"
         rm --force --recursive --dir "$destDir/HELI"
-        
+
         for chart in "${heli_chart_list[@]}"
             do
             echo "HELI: $chart                                                 "
@@ -421,7 +420,7 @@ if [ -n "$should_create_heli" ]
                     "${destDir}/HELI" \
                     "${destDir}/HELI.mbtiles"
             fi
-        
+
         # Copy leaflet and the simple viewer to our tiled directory
         cp -r ./leaflet/* "$destDir/HELI"
     fi
@@ -481,5 +480,3 @@ fi
 # Call the main routine
 main "$@"
 exit 0
-
-
