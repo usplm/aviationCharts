@@ -50,7 +50,7 @@ def optimize_connection(cur):
     cur.execute("""PRAGMA journal_mode=DELETE""")
 
 def compression_prepare(cur, silent):
-    if not silent: 
+    if not silent:
         logger.debug('Prepare database compression.')
     cur.execute("""
       CREATE TABLE if not exists images (
@@ -66,10 +66,10 @@ def compression_prepare(cur, silent):
     """)
 
 def optimize_database(cur, silent):
-    if not silent: 
+    if not silent:
         logger.debug('analyzing db')
     cur.execute("""ANALYZE;""")
-    if not silent: 
+    if not silent:
         logger.debug('cleaning db')
 
     # Workaround for python>=3.6.0,python<3.6.2
@@ -175,7 +175,8 @@ def disk_to_mbtiles(directory_path, mbtiles_file, **kwargs):
 
     con = mbtiles_connect(mbtiles_file, silent)
     cur = con.cursor()
-    optimize_connection(cur)
+    # turn off optimize_connection function which may causes the database locked error
+    # optimize_connection(cur)
     mbtiles_setup(cur)
     #~ image_format = 'png'
     image_format = kwargs.get('format', 'png')
@@ -186,10 +187,10 @@ def disk_to_mbtiles(directory_path, mbtiles_file, **kwargs):
         for name, value in metadata.items():
             cur.execute('insert into metadata (name, value) values (?, ?)',
                 (name, value))
-        if not silent: 
+        if not silent:
             logger.info('metadata from metadata.json restored')
     except IOError:
-        if not silent: 
+        if not silent:
             logger.warning('metadata.json not found')
 
     count = 0
@@ -198,14 +199,14 @@ def disk_to_mbtiles(directory_path, mbtiles_file, **kwargs):
     for zoom_dir in get_dirs(directory_path):
         if kwargs.get("scheme") == 'ags':
             if not "L" in zoom_dir:
-                if not silent: 
+                if not silent:
                     logger.warning("You appear to be using an ags scheme on an non-arcgis Server cache.")
             z = int(zoom_dir.replace("L", ""))
         elif kwargs.get("scheme") == 'gwc':
             z=int(zoom_dir[-2:])
         else:
             if "L" in zoom_dir:
-                if not silent: 
+                if not silent:
                     logger.warning("You appear to be using a %s scheme on an arcgis Server cache. Try using --scheme=ags instead" % kwargs.get("scheme"))
             z = int(zoom_dir)
         for row_dir in get_dirs(os.path.join(directory_path, zoom_dir)):
