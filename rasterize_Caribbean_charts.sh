@@ -43,6 +43,7 @@ set +e
     # Unzip the Caribbean PDFs
     echo "Unzipping $chartType files for Caribbean"
     unzip -qq -u -j "delcb*.zip" "*.pdf"
+    unzip -qq -u -j "DELCB*.zip" "*.pdf"
     # Restore quit on error
 set -e
 
@@ -52,12 +53,12 @@ do
     if [ -f "$f.tif" ]
 	then
             echo "Rasterized $f already exists"
-            continue  
+            continue
 	fi
     echo "--------------------------------------------"
     echo "Converting $f to raster"
     echo "--------------------------------------------"
-    
+
     # Needs to point to where memoize is
     "${installedDirectory}/memoize.py" -t                       \
         gs                                                      \
@@ -72,7 +73,7 @@ do
     echo "--------------------------------------------"
     echo "Tile $f"
     echo "--------------------------------------------"
-    
+
     # Needs to point to where memoize is
     "$installedDirectory/memoize.py" -t                      \
         gdal_translate                                      \
@@ -81,11 +82,11 @@ do
                     -co COMPRESS=LZW                        \
                     "$output_raster_path/$f-untiled.tif"    \
                     "$output_raster_path/$f.tif"
-                
+
     echo "--------------------------------------------"
     echo "Overviews $f"
     echo "--------------------------------------------"
-    
+
     # Needs to point to where memoize is
     "$installedDirectory/memoize.py" -t             \
         gdaladdo                                    \
@@ -96,9 +97,9 @@ do
                 --config BIGTIFF_OVERVIEW IF_NEEDED \
                 "$output_raster_path/$f.tif"        \
                 2 4 8 16 32 64
-    
+
 #     rm "$output_raster_path/$f-untiled.tif"
-    
+
 done
 
 exit 0
