@@ -20,12 +20,12 @@ main() {
     create_directories "$CHARTS_BASE_DIRECTORY"
 
     # Update local chart copies from Aeronav website
-    ./freshenLocalCharts.sh "$CHARTS_BASE_DIRECTORY"
+    # ./freshenLocalCharts.sh "$CHARTS_BASE_DIRECTORY"
 
     # Unzip all .tifs to one directory and normalize names
     # This handles charts that have revision numbers in the filename
     # (sectional, tac etc)
-    ./unzip_and_normalize.sh "$CHARTS_BASE_DIRECTORY"
+    # ./unzip_and_normalize.sh "$CHARTS_BASE_DIRECTORY"
 
     # The process_charts function does the following for a given chart type:
     # 	Expand charts to RGBA band as necessary using a .vrt file
