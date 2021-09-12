@@ -8,7 +8,7 @@ IFS=$(printf '\n\t')   # IFS is newline or tab
 
 main() {
     # Types of charts
-    local -r chart_types_array=( caribbean enroute gom grand_canyon heli insets planning sectional tac )
+    local -r chart_types_array=( caribbean enroute gom grand_canyon heli insets planning sectional tac airport_diagram )
 
     # An associative array of the individual chart arrays for different scales and
     # each one's associated zoom levels
@@ -30,6 +30,7 @@ main() {
         [enroute_chart_array_250000]="0,1,2,3,4,5,6,7,8,9,10,11,12"
         [caribbean_chart_array]="0,1,2,3,4,5,6,7,8,9,10"
         [planning_chart_array]="0,1,2,3,4,5,6,7"
+        [airport_diagram_chart_array]="12,13,14,15,16"
         )
 
     # Charts that are at 1:500,000 scale
@@ -222,6 +223,11 @@ main() {
         U_S_VFR_Wall_Planning_Chart
         )
 
+    local -r airport_diagram_chart_array=(
+        00375AD
+        00411AD
+        )
+
     # Get command line parameters
     local -r destinationRoot="$1"
     local -r chart_type="$2"
@@ -353,6 +359,7 @@ should_process_helicopter=''
 should_process_planning=''
 should_process_sectional=''
 should_process_tac=''
+should_process_airport_diagram=''
 
 # Process command line options
 while getopts 'omvceghpst' flag; do
@@ -367,6 +374,7 @@ while getopts 'omvceghpst' flag; do
     p) should_process_planning='true'       ;;
     s) should_process_sectional='true'      ;;
     t) should_process_tac='true'            ;;
+    d) should_process_airport_diagram='true';;
     *) error "Unexpected option ${flag}"    ;;
   esac
 done
