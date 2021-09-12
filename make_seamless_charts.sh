@@ -572,7 +572,7 @@ should_create_tiles=''
 should_create_mbtiles=''
 
 # Set variables from command line options
-while getopts 'ceghpstm' flag; do
+while getopts 'ceghpstdlm' flag; do
   case "${flag}" in
     c) should_process_caribbean='true' ;;
     e) should_process_enroute='true' ;;
