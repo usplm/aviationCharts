@@ -224,6 +224,7 @@ USAGE() {
     echo "    -p  Process PLANNING charts"
     echo "    -s  Process SECTIONAL charts"
     echo "    -t  Process TAC charts"
+    echo "    -d  Process AIRPORT_DIAGRAM charts"
     echo "    -l  Create tiles for each chart type as well"
     echo "    -m  Create mbtiles for each chart type as well"
     exit 1
@@ -295,6 +296,8 @@ expand_to_rgb(){
     sectional_files=("${NORMALIZED_FILE_DIRECTORY}/*_SEC.tif")
 
     tac_files=("${NORMALIZED_FILE_DIRECTORY}/*_TAC.tif")
+
+    airport_diagram_files=("${NORMALIZED_FILE_DIRECTORY}/*AD.tif")
 #     insets_files=("${NORMALIZED_FILE_DIRECTORY}/*.tif")
 
 
