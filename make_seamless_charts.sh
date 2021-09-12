@@ -297,7 +297,7 @@ expand_to_rgb(){
 
     tac_files=("${NORMALIZED_FILE_DIRECTORY}/*_TAC.tif")
 
-    airport_diagram_files=("${NORMALIZED_FILE_DIRECTORY}/*AD.tif")
+    airport_diagram_files=("${NORMALIZED_FILE_DIRECTORY}/*AD.pdf.tif")
 #     insets_files=("${NORMALIZED_FILE_DIRECTORY}/*.tif")
 
 
