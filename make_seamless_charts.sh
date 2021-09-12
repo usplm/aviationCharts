@@ -28,14 +28,14 @@ main() {
     # ./unzip_and_normalize.sh "$CHARTS_BASE_DIRECTORY"
 
     # The process_charts function does the following for a given chart type:
-    # 	Expand charts to RGBA band as necessary using a .vrt file
-    # 	Clip each chart to its associated polygon
-    #	Reproject to EPSG:3857
+    # - Expand charts to RGBA band as necessary using a .vrt file
+    # - Clip each chart to its associated polygon
+    # - Reproject to EPSG:3857
 
     # The tile_charts.sh script does these functions for a given chart type:
-    # 	create TMS tile tree from the reprojected raster
-    #       optionally (with -o) use pngquant to optimize each individual tile
-    #       optionally (with -m) create an mbtile for each individual chart
+    # - create TMS tile tree from the reprojected raster
+    # - optionally (with -o) use pngquant to optimize each individual tile
+    # - optionally (with -m) create an mbtile for each individual chart
     #
 
     if [ -n "$should_process_caribbean" ]; then
@@ -60,8 +60,9 @@ main() {
             "${CHARTS_BASE_DIRECTORY}/2_normalized/"
 
         if [ -n "$should_create_mbtiles" ]; then
-#              ./tileCaribbean.sh      -m -o "$CHARTS_BASE_DIRECTORY"
-             ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" caribbean
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" caribbean
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" caribbean
         fi
     fi
 
@@ -74,9 +75,9 @@ main() {
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
 
         if [ -n "$should_create_mbtiles" ]; then
-#             ./tileEnrouteHigh.sh    -m -o "$CHARTS_BASE_DIRECTORY"
-#             ./tileEnrouteLow.sh     -m -o "$CHARTS_BASE_DIRECTORY"
-            ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" enroute
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" enroute
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" enroute
         fi
 
     fi
@@ -89,8 +90,9 @@ main() {
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
 
         if [ -n "$should_create_mbtiles" ]; then
-#             ./tileGrandCanyon.sh    -m -o "$CHARTS_BASE_DIRECTORY"
-            ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" grand_canyon
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" grand_canyon
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" grand_canyon
         fi
 
     fi
@@ -103,8 +105,9 @@ main() {
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
 
         if [ -n "$should_create_mbtiles" ]; then
-#             ./tileHeli.sh           -m -o "$CHARTS_BASE_DIRECTORY"
-            ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" heli
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" heli
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" heli
         fi
 
     fi
@@ -118,7 +121,9 @@ main() {
         process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
 
         if [ -n "$should_create_mbtiles" ]; then
-            ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" planning
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" planning
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" planning
         fi
 
 
@@ -139,10 +144,12 @@ main() {
 
 
         if [ -n "$should_create_mbtiles" ]; then
-#             ./tileSectional.sh   -m -o "$CHARTS_BASE_DIRECTORY"
-#             ./tileInsets.sh      -m -o "$CHARTS_BASE_DIRECTORY"
-            ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" sectional
-            ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" insets
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" sectional
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" insets
+
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" sectional
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" insets
 
         fi
 
@@ -157,8 +164,11 @@ main() {
 
         # Create mbtiles if requested
         if [ -n "$should_create_mbtiles" ]; then
-#             ./tileTac.sh    -m -o "$CHARTS_BASE_DIRECTORY"
-            ./tile_charts.sh   -m -o "$CHARTS_BASE_DIRECTORY" tac
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" tac
+
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" tac
+
         fi
 
     fi
@@ -192,6 +202,7 @@ USAGE() {
     echo "    -p  Process PLANNING charts"
     echo "    -s  Process SECTIONAL charts"
     echo "    -t  Process TAC charts"
+    echo "    -l  Create tiles for each chart type as well"
     echo "    -m  Create mbtiles for each chart type as well"
     exit 1
     }
@@ -531,6 +542,7 @@ should_process_helicopter=''
 should_process_planning=''
 should_process_sectional=''
 should_process_tac=''
+should_create_tiles=''
 should_create_mbtiles=''
 
 # Set variables from command line options
@@ -543,6 +555,7 @@ while getopts 'ceghpstm' flag; do
     p) should_process_planning='true' ;;
     s) should_process_sectional='true' ;;
     t) should_process_tac='true' ;;
+    l) should_create_tiles='true' ;;
     m) should_create_mbtiles='true' ;;
     *) error "Unexpected option ${flag}" ;;
   esac
