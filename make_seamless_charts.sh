@@ -173,6 +173,28 @@ main() {
 
     fi
 
+    if [ -n "$should_process_airport_diagram" ]; then
+
+        INPUT_CHART_TYPE="airport_diagram"
+        INPUT_ORIGINAL_DIRECTORY="$CHARTS_BASE_DIRECTORY/www.faa.gov/air_traffic/flight_info/aeronav/digital_products/dtpp/"
+
+        # Extract airport diagram (DDTPP) PDFs and convert to TIFF, placing output in "2_normalized"
+        # directory
+        ./rasterize_airport_diagrams.sh     \
+            "$INPUT_ORIGINAL_DIRECTORY"     \
+            "$CHARTS_BASE_DIRECTORY"
+
+        # Do all processing on this type of chart
+        process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
+
+        # Create tiles
+        if [ -n "$should_create_mbtiles" ]; then
+            ./tile_charts.sh -m -o "$CHARTS_BASE_DIRECTORY" airport_diagram
+        elif [ -n "$should_create_tiles" ]; then
+            ./tile_charts.sh "$CHARTS_BASE_DIRECTORY" airport_diagram
+        fi
+    fi
+
 
 
     # Stack the various resolutions and types of charts into combined tilesets
@@ -542,6 +564,7 @@ should_process_helicopter=''
 should_process_planning=''
 should_process_sectional=''
 should_process_tac=''
+should_process_airport_diagram=''
 should_create_tiles=''
 should_create_mbtiles=''
 
@@ -555,6 +578,7 @@ while getopts 'ceghpstm' flag; do
     p) should_process_planning='true' ;;
     s) should_process_sectional='true' ;;
     t) should_process_tac='true' ;;
+    d) should_process_airport_diagram='ture' ;;
     l) should_create_tiles='true' ;;
     m) should_create_mbtiles='true' ;;
     *) error "Unexpected option ${flag}" ;;
@@ -573,7 +597,7 @@ if [ "$NUMARGS" -ne 2 ] ; then
 fi
 
 # Make sure at least one chart type is specified
-if [[ -z $should_process_caribbean && -z $should_process_enroute && -z $should_process_grand_canyon && -z $should_process_helicopter && -z $should_process_planning && -z $should_process_sectional && -z $should_process_tac ]]; then
+if [[ -z $should_process_caribbean && -z $should_process_enroute && -z $should_process_grand_canyon && -z $should_process_helicopter && -z $should_process_planning && -z $should_process_sectional && -z $should_process_tac && -z $should_process_airport_diagram]]; then
     echo  "Please specify at least one chart type to process"
     USAGE
 fi
