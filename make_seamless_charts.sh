@@ -600,7 +600,7 @@ if [ "$NUMARGS" -ne 2 ] ; then
 fi
 
 # Make sure at least one chart type is specified
-if [[ -z $should_process_caribbean && -z $should_process_enroute && -z $should_process_grand_canyon && -z $should_process_helicopter && -z $should_process_planning && -z $should_process_sectional && -z $should_process_tac && -z $should_process_airport_diagram]]; then
+if [[ -z $should_process_caribbean && -z $should_process_enroute && -z $should_process_grand_canyon && -z $should_process_helicopter && -z $should_process_planning && -z $should_process_sectional && -z $should_process_tac && -z $should_process_airport_diagram ]]; then
     echo  "Please specify at least one chart type to process"
     USAGE
 fi
