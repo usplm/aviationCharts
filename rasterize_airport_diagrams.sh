@@ -97,7 +97,8 @@ do
                 "$output_raster_path/$f.tif"        \
                 2 4 8 16 32 64
 
-#     rm "$output_raster_path/$f-untiled.tif"
+    # Delete the temp tif file
+    rm "$output_raster_path/$f-untiled.tif"
 
 done
 
