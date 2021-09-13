@@ -63,7 +63,7 @@ do
             -q -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT     \
             -sDEVICE=tiff24nc                                   \
             -sOutputFile="$output_raster_path/$f-untiled.tif"   \
-            -c "<</Orientation 1>> setpagedevice"               \
+            -dORIENT1=false                                     \
             -r300                                               \
             -dTextAlphaBits=4                                   \
             -dGraphicsAlphaBits=4                               \
