@@ -38,7 +38,7 @@ exit main(@ARGV);
 
 sub main {
     our $debug = 0;
-    my $chartType = 'enroute';
+    my $chartType = 'airport_diagram';
 
     #I'm using locally compiled gdal
     #If your version is > 2 then set this to empty string ''
@@ -50,7 +50,7 @@ sub main {
     my $num_args = $#ARGV + 1;
 
     if ( $num_args != 2 ) {
-        say "Usage: $0 <destination_root_dir> <enroute_directory>";
+        say "Usage: $0 <destination_root_dir> <airport_diagram_directory>";
         exit;
     }
 
@@ -60,7 +60,7 @@ sub main {
 
     #     # For files that have a version in their name, this is where the links to the
     #     # lastest version will be stored
-    #     my $linkedRastersDirectory = "$enroute_directory/";
+    #     my $linkedRastersDirectory = "airport_diagram_directory/";
 
     # Where clipped rasters are stored
     my $clippedRastersDirectory =
