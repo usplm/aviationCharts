@@ -61,9 +61,8 @@ do
     "${installedDirectory}/memoize.py" -t                       \
         gs                                                      \
             -q -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT     \
-            -sDEVICE=tiff24nc                                   \
+            -sDEVICE=tiff24nc -dORIENT=false                    \
             -sOutputFile="$output_raster_path/$f-untiled.tif"   \
-            -dORIENT1=false                                     \
             -r300                                               \
             -dTextAlphaBits=4                                   \
             -dGraphicsAlphaBits=4                               \
