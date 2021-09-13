@@ -401,7 +401,7 @@ warp_and_clip(){
     for sourceChartName in ${EXPANDED_CHART_ARRAY[@]}; do
         # Get the file name without extension
         local fbname=$(basename "$sourceChartName" | cut -d. -f1)
-        local has_clipping_shape='true'
+        has_clipping_shape='true'
 
         # Clip the file it to its clipping shape
         echo "*** Clip to vrt --- gdalwarp $sourceChartName"
