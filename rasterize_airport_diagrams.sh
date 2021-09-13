@@ -41,12 +41,12 @@ cd "$originalRastersDirectory"
 set +e
     # Unzip the Caribbean PDFs
     echo "Unzipping airport diagram files"
-    unzip -qq -u -j "DDTPP[A-D].zip" "*.pdf"
+    unzip -qq -u -j "DDTPP[A-D].zip" "*.PDF"
     # Restore quit on error
 set -e
 
 # Convert them to .tiff
-for f in *AD.pdf
+for f in *AD.PDF
 do
     if [ -f "$f.tif" ]
 	then
