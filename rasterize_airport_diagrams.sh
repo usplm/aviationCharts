@@ -61,7 +61,7 @@ do
     "${installedDirectory}/memoize.py" -t                       \
         gs                                                      \
             -q -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT     \
-            -sDEVICE=tiff24nc -dORIENT=false                    \
+            -sDEVICE=tiff24nc -c "<</Orientation 3>> setpagedevice" \
             -sOutputFile="$output_raster_path/$f-untiled.tif"   \
             -r300                                               \
             -dTextAlphaBits=4                                   \
