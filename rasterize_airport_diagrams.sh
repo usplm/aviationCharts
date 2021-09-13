@@ -61,12 +61,13 @@ do
     "${installedDirectory}/memoize.py" -t                       \
         gs                                                      \
             -q -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT     \
-            -sDEVICE=tiff24nc -c "<</Orientation 3>> setpagedevice" \
+            -sDEVICE=tiff24nc                                   \
             -sOutputFile="$output_raster_path/$f-untiled.tif"   \
             -r300                                               \
             -dTextAlphaBits=4                                   \
             -dGraphicsAlphaBits=4                               \
-            "$f"
+            -c "<</Orientation 3>> setpagedevice"               \
+            -f "$f"
 
     echo "--------------------------------------------"
     echo "Tile $f"
