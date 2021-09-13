@@ -184,8 +184,13 @@ main() {
             "$INPUT_ORIGINAL_DIRECTORY"     \
             "$CHARTS_BASE_DIRECTORY"
 
+        # Cut out the diagrams and georeference them
+        ./cut_and_georeference_airport_diagrams.pl \
+            "$CHARTS_BASE_DIRECTORY"    \
+            "${CHARTS_BASE_DIRECTORY}/2_normalized/"
+
         # Do all processing on this type of chart
-        process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
+        # process_charts "${INPUT_CHART_TYPE}" "${INPUT_ORIGINAL_DIRECTORY}"
 
         # Create tiles
         if [ -n "$should_create_mbtiles" ]; then
@@ -297,7 +302,7 @@ expand_to_rgb(){
 
     tac_files=("${NORMALIZED_FILE_DIRECTORY}/*_TAC.tif")
 
-    airport_diagram_files=("${NORMALIZED_FILE_DIRECTORY}/*AD.pdf.tif")
+    airport_diagram_files=("${NORMALIZED_FILE_DIRECTORY}/*AD.PDF.tif")
 #     insets_files=("${NORMALIZED_FILE_DIRECTORY}/*.tif")
 
 
