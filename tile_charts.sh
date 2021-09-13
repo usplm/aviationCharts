@@ -30,7 +30,7 @@ main() {
         [enroute_chart_array_250000]="0,1,2,3,4,5,6,7,8,9,10,11,12"
         [caribbean_chart_array]="0,1,2,3,4,5,6,7,8,9,10"
         [planning_chart_array]="0,1,2,3,4,5,6,7"
-        [airport_diagram_chart_array]="10,11,12,13,14"
+        [airport_diagram_chart_array]="10,11,12,13,14,15,16"
         )
 
     # Charts that are at 1:500,000 scale
