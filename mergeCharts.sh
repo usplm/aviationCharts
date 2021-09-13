@@ -262,6 +262,12 @@ heli_chart_list=(
     Downtown_Manhattan_HEL
     )
 
+  # Airport diagrams sorted by airport code
+  airport_diagram_chart_list=(
+      00375_KSFO_AD
+      00411_KSYR_AD
+      )
+
 #-------------------------------------------------------------------------------
 # VFR
 if [ -n "$should_create_vfr" ]
@@ -425,6 +431,43 @@ if [ -n "$should_create_heli" ]
         cp -r ./leaflet/* "$destDir/HELI"
     fi
 
+#-------------------------------------------------------------------------------
+# AIRPORT DIAGRAM
+if [ -n "$should_create_airport_diagram" ]
+    then
+        echo "Cleaning $destDir/AIRPORT-DIAGRAM"
+        rm --force --recursive --dir "$destDir/AIRPORT-DIAGRAM"
+
+        for chart in "${airport_diagram_chart_list[@]}"
+            do
+            echo "AIRPORT DIAGRAM: $chart                                                 "
+
+            #Merge the individual charts into an overall chart
+            ./merge_tile_sets.pl \
+                "${srcDir}/${chart}.tms/"   \
+                "${destDir}/AIRPORT-DIAGRAM"
+            done
+
+        # Optimize the tiled png files
+        ./pngquant_all_files_in_directory.sh "${destDir}/AIRPORT-DIAGRAM"
+
+        if [ -n "$should_create_mbtiles" ]
+            then
+            # Remove the existing mbtiles
+            rm --force "${destDir}/AIRPORT-DIAGRAM.mbtiles"
+
+            # Package tiles into an .mbtiles file
+            ./memoize.py -i "$destDir" -d "$destDir"  \
+                python ./mbutil/mb-util \
+                    --scheme=tms \
+                    "${destDir}/AIRPORT-DIAGRAM" \
+                    "${destDir}/AIRPORT-DIAGRAM.mbtiles"
+            fi
+
+        # Copy leaflet and the simple viewer to our tiled directory
+        cp -r ./leaflet/* "$destDir/AIRPORT-DIAGRAM"
+    fi
+
 exit 0
 }
 
@@ -434,6 +477,7 @@ function USAGE {
     echo "    -h  Create merged IFR-HIGH"
     echo "    -l  Create merged IFR-LOW"
     echo "    -c  Create merged HELICOPTER"
+    echo "    -d  Create merged AIRPORT DIAGRAM"
     echo "    -m  Create mbtiles for each chart"
     exit 1
 }
@@ -453,14 +497,16 @@ should_create_vfr=''
 should_create_ifr_high=''
 should_create_ifr_low=''
 should_create_heli=''
+should_create_airport_diagram=''
 should_create_mbtiles=''
 
-while getopts 'vhlcm' flag; do
+while getopts 'vhlcdm' flag; do
   case "${flag}" in
     v) should_create_vfr='true' ;;
     h) should_create_ifr_high='true' ;;
     l) should_create_ifr_low='true' ;;
     c) should_create_heli='true' ;;
+    d) should_create_airport_diagram='true' ;;
     m) should_create_mbtiles='true' ;;
     *) error "Unexpected option ${flag}" ;;
   esac
