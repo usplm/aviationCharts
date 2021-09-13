@@ -362,7 +362,7 @@ should_process_tac=''
 should_process_airport_diagram=''
 
 # Process command line options
-while getopts 'omvceghpst' flag; do
+while getopts 'omvceghpstd' flag; do
   case "${flag}" in
     o) optimize_tiles_flag='true'           ;;
     m) create_mbtiles_flag='true'           ;;
