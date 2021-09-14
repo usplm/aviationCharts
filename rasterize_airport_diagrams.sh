@@ -66,8 +66,7 @@ do
             -r300                                               \
             -dTextAlphaBits=4                                   \
             -dGraphicsAlphaBits=4                               \
-            # -c "<</Orientation 3>> setpagedevice" -f              \
-            "$f"
+            -f "$f"
 
     echo "--------------------------------------------"
     echo "Tile $f"
