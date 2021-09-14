@@ -41,7 +41,7 @@ cd "$originalRastersDirectory"
 set +e
     # Unzip the Caribbean PDFs
     echo "Unzipping airport diagram files"
-    unzip -qq -u -j "DDTPP*.zip" "*.PDF *.pdf"
+    unzip -qq -u -j -LL "ddtpp*.zip" "*.pdf"
     # Restore quit on error
 set -e
 
