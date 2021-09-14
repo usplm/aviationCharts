@@ -95,28 +95,55 @@ sub main {
     #   Relative to the original, unclipped file: Pixel X, Pixel Y, Longitude, Latitude
     my %charts = (
 
-        #Points are clockwise from upper left
-        "00411_KSYR_AD" => [
-            "00411AD",
-            "186", "75", "2289", "1539",
+        #GCPs are clockwise from upper left
+
+        # New York (NY)
+        #"00411_KSYR_AD" => [
+        #    "00411ad",
+        #    "74", "186", "1540", "2289",
+        #    [
+        #        "  910      420     76-07W 43-07N",
+        #        "  1671     420     76-06W 43-07N",
+        #        "  1671     1459    76-06W 43-06N",
+        #        "  910      1459    76-07W 43-06N",
+        #    ]
+        #],
+
+        # California (CA)
+        "00294_KSFO_AD" => [
+            "00294ad",
+            "METRO OAKLAND INTL",
+            "74", "186", "1540", "2289",
             [
-                "  910      420     76-07W 43-07N",
-                "  1671     420     76-06W 43-07N",
-                "  1671     1459    76-06W 43-06N",
-                "  910      1459    76-07W 43-06N",
+                "   445       705     122-14W 37-44N",
+                "   1025      706     122-13W 37-44N",
+                "   1023     1434     122-13W 37-43N",
+                "   1024     2162     122-13W 37-42N",
+                "   444      2163     122-14W 37-42N",
+                "   444      1435     122-14W 37-43N",
             ]
         ],
-
-
         "00375_KSFO_AD" => [
-            "00375AD",
-            "186", "75", "2289", "1539",
+            "00375ad",
+            "SAN FRANCISCO INTL",
+            "74", "186", "1540", "2289",
             [
-                "   708       322     122-24W 37-38N",
-                "   1251      322     122-23W 37-38N",
-                "   1794      322     122-22W 37-38N",
-                "   1795     1005     122-22W 37-37N",
-                "   709      1005     122-24W 37-37N",
+                "   322       680     122-22W 37-38N",
+                "   1006      680     122-22W 37-37N",
+                "   1006     1765     122-24W 37-37N",
+                "   323      1766     122-24W 37-38N",
+                "   323      1222     122-23W 37-38N",
+            ]
+        ],
+        "05320_KCCR_AD" => [
+            "00375ad",
+            "BUCHANAN FLD",
+            "74", "186", "1540", "2289",
+            [
+                "   674.6    905.6     122-03.5W 37-59.5N",
+                "   1384.5   905.6     122-03.0W 37-59.5N",
+                "   1384.5   1801.1    122-03.0W 37-59.0N",
+                "   674.6    1801.1    122-03.5W 37-59.0N",
             ]
         ],
 
@@ -128,11 +155,11 @@ sub main {
         #Pull out the relevant data for each inset
         my $sourceRaster =
           $linkedRastersDirectory . $charts{$destination_chart_name}[0];
-        my $ulX         = $charts{$destination_chart_name}[1];
-        my $ulY         = $charts{$destination_chart_name}[2];
-        my $lrX         = $charts{$destination_chart_name}[3];
-        my $lrY         = $charts{$destination_chart_name}[4];
-        my $gcpArrayRef = $charts{$destination_chart_name}[5];
+        my $ulX         = $charts{$destination_chart_name}[2];
+        my $ulY         = $charts{$destination_chart_name}[3];
+        my $lrX         = $charts{$destination_chart_name}[4];
+        my $lrY         = $charts{$destination_chart_name}[5];
+        my $gcpArrayRef = $charts{$destination_chart_name}[6];
 
         my $clipped_raster =
           $clippedRastersDirectory . $destination_chart_name . ".vrt";
