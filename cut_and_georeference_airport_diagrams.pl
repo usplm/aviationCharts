@@ -383,11 +383,6 @@ sub createGcpString {
         my $latSeconds     = 0;
         my $latDeclination = $+{latDeclination};
 
-        # Log extracted coordinates components
-        say "$+{rasterX}, $+{rasterY}, $+{lonDegrees}, $+{lonMinutes}, $+{lonDeclination}, $+{latDegrees}, $+{latMinutes}, $+{latDeclination}";
-        # Log calculated coordinates components
-        say "$rasterX, $rasterY, $lonDegrees-$lonMinutes-$lonSeconds-$lonDeclination, $latDegrees-$latMinutes-$latSeconds-$latDeclination";
-
         say
           "$lonDegrees-$lonMinutes-$lonSeconds-$lonDeclination,$latDegrees-$latMinutes-$latSeconds-$latDeclination"
           if $main::debug;
@@ -410,13 +405,13 @@ sub createGcpString {
         else {
             die "Missing some part of coordinate";
         }
-        say "$lonDecimal, $latDecimal"; # if $main::debug;
+        say "$lonDecimal, $latDecimal" if $main::debug;
 
         #Add it to the overall GCP string
         $gcpString =
           $gcpString . "-gcp $rasterX $rasterY $lonDecimal $latDecimal ";
     }
 
-    say "gcpString: $gcpString"; #if $main::debug;
+    say "gcpString: $gcpString" if $main::debug;
     return $gcpString;
 }
