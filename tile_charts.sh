@@ -225,7 +225,7 @@ main() {
 
     local -r airport_diagram_chart_array=(
         # California
-        00294_KOAK_AD 00375_KSFO_AD 00488_KSUU_AD 00693_KSJC_AD 05320_KCCR_AD
+        00294_KOAK_AD 00375_KSFO_AD 00488_KSUU_AD 00693_KSJC_AD 00696_KSTS_AD 05320_KCCR_AD
         # New York
         # 00411_KSYR_AD
         )
