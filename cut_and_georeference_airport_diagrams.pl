@@ -383,7 +383,10 @@ sub createGcpString {
         my $latSeconds     = 0;
         my $latDeclination = $+{latDeclination};
 
-        say "$+{rasterX}, $+{rasterY}, $+{lonDegrees}, $+{lonMinutes}, $+{lonDeclination}";
+        # Log extracted coordinates components
+        say "$+{rasterX}, $+{rasterY}, $+{lonDegrees}, $+{lonMinutes}, $+{lonDeclination}, $+{latDegrees}, $+{latMinutes}, $+{latDeclination}";
+        # Log calculated coordinates components
+        say "$rasterX, $rasterY, $lonDegrees-$lonMinutes-$lonSeconds-$lonDeclination, $latDegrees-$latMinutes-$latSeconds-$latDeclination";
 
         say
           "$lonDegrees-$lonMinutes-$lonSeconds-$lonDeclination,$latDegrees-$latMinutes-$latSeconds-$latDeclination"
