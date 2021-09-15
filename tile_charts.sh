@@ -224,7 +224,7 @@ main() {
         )
 
     local -r airport_diagram_chart_array=(
-        00375_KSFO_AD
+        00294_KSFO_AD 00375_KSFO_AD 05320_KCCR_AD
         00411_KSYR_AD
         )
 
