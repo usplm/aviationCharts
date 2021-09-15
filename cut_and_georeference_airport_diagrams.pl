@@ -355,7 +355,7 @@ sub createGcpString {
         { type => SCALAR },
         { type => SCALAR },
     );
-    my $gcpString;
+    my $gcpString = "";
 
     #Create the gcpString from the array of gcp entries
     foreach (@$gcpArrayRef) {
