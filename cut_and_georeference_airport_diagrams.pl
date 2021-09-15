@@ -417,6 +417,6 @@ sub createGcpString {
           $gcpString . "-gcp $rasterX $rasterY $lonDecimal $latDecimal ";
     }
 
-    say "gcpString: $gcpString" if $main::debug;
+    say "gcpString: $gcpString"; #if $main::debug;
     return $gcpString;
 }
