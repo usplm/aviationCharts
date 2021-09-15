@@ -224,8 +224,10 @@ main() {
         )
 
     local -r airport_diagram_chart_array=(
-        00294_KOAK_AD 00375_KSFO_AD 05320_KCCR_AD
-        00411_KSYR_AD
+        # California
+        00294_KOAK_AD 00375_KSFO_AD 00488_KSUU_AD 05320_KCCR_AD
+        # New York
+        # 00411_KSYR_AD
         )
 
     # Get command line parameters
