@@ -410,7 +410,7 @@ sub createGcpString {
         else {
             die "Missing some part of coordinate";
         }
-        say "$lonDecimal, $latDecimal" if $main::debug;
+        say "$lonDecimal, $latDecimal"; # if $main::debug;
 
         #Add it to the overall GCP string
         $gcpString =
