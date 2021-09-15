@@ -369,6 +369,8 @@ sub createGcpString {
               (?<latDegrees>\d{2,}) - (?<latMinutes>\d+[.]?\d*) (?<latDeclination>[N|S])
               /ix;
 
+        say "$rasterX, $rasterY, $lonDegrees, $lonMinutes, $lonDeclination"
+
         #Make these pixel coordinates relative to the smaller window of the inset
         my $rasterX = $+{rasterX} - $ul_x;
         my $rasterY = $+{rasterY} - $ul_y;
