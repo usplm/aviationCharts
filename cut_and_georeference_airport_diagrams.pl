@@ -364,7 +364,7 @@ sub createGcpString {
         #Pull out components
         $_ =~ m/
               (?<rasterX>\d+[.]\d+) \s+
-              (?<rasterY>\d+[.]\d+)) \s+
+              (?<rasterY>\d+[.]\d+) \s+
               (?<lonDegrees>\d{2,}) - (?<lonMinutes>\d+[.]\d+) (?<lonDeclination>[E|W]) \s+
               (?<latDegrees>\d{2,}) - (?<latMinutes>\d+[.]\d+) (?<latDeclination>[N|S])
               /ix;
